@@ -18,25 +18,26 @@ public class Main {
 		JFrame frmMain = new JFrame();
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		List<Point> points = getPoints(5000);
-		Rectangle rectangle = new Rectangle(getNext(), getNext(), getNext(), getNext());
-		
-		frmMain.setSize(SIDE, SIDE);
+		List<CustomPoint> points = getPoints(100);
+		Rectangle rectangle = new Rectangle(0, 0, SIDE, SIDE);
+
+		frmMain.setSize(SIDE + 20, SIDE + 20);
 		MyPanel mainPanel = new MyPanel(points, rectangle);
 		frmMain.add(mainPanel);
 		frmMain.setVisible(true);
 
 		QuadTree tree = new QuadTree(new Point(0, 0), new Dimension(SIDE, SIDE));
 		points.forEach(p -> tree.insert(p));
-		
-		List<Point> intersectectPoints = tree.getIntersectectPoints(rectangle, null);
-		System.out.println(intersectectPoints.size());
+
+		List<CustomPoint> intersectectPoints = tree.getIntersectectPoints(rectangle, null);
+
+		intersectectPoints.forEach(CustomPoint::repaint);
 	}
 
-	private static List<Point> getPoints(int length) {
-		Point[] points = new Point[length];
+	private static List<CustomPoint> getPoints(int length) {
+		CustomPoint[] points = new CustomPoint[length];
 		for (int i = 0; i < length; i++) {
-			points[i] = new Point(getNext(), getNext());
+			points[i] = new CustomPoint(getNext(), getNext());
 		}
 		return Arrays.asList(points);
 	}

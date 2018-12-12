@@ -10,7 +10,7 @@ public class QuadTree {
 
 	int capacity = 4;
 	boolean isDivided;
-	List<Point> points;
+	List<CustomPoint> points;
 	QuadTree northWest;
 	QuadTree northEast;
 	QuadTree southEast;
@@ -23,7 +23,7 @@ public class QuadTree {
 		points = new ArrayList<>(capacity);
 	}
 
-	public boolean insert(Point p) {
+	public boolean insert(CustomPoint p) {
 		if (!intersect(p)) {
 			return false;
 		} else {
@@ -51,8 +51,8 @@ public class QuadTree {
 		isDivided = true;
 	}
 
-	private boolean intersect(Point p) {
-		return boundary.contains(p);
+	private boolean intersect(CustomPoint p) {
+		return boundary.contains(p.getRectangle());
 	}
 
 	@Override
@@ -69,15 +69,16 @@ public class QuadTree {
 		return builder.toString();
 	}
 
-	public List<Point> getIntersectectPoints(Rectangle rectangle, List<Point> result) {
+	public List<CustomPoint> getIntersectectPoints(Rectangle rectangle, List<CustomPoint> result) {
 		if (result == null) {
 			result = new ArrayList<>();
 		}
 		if (!boundary.intersects(rectangle)) {
 			return null;
 		} else {
-			for (Point p : points) {
-				if (rectangle.contains(p)) {
+			for (CustomPoint p : points) {
+				Rectangle rect = p.getRectangle();
+				if (rectangle.intersects(rect)) {
 					result.add(p);
 				}
 			}
